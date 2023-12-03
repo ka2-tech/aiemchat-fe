@@ -4,11 +4,9 @@
 
 ```
 npm install
-
 ```
 #### Build Docker Images
 
 ```
 docker build -t frontend-chat .
-
 ```
