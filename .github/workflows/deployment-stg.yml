@@ -66,7 +66,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Slack Notification Build and Pushlish Success
-        if: ${{ success() }}
+        if: |
+            always() && 
+            (needs.push_to_registry.result == 'success' && needs.build.result == 'success')
         uses: rtCamp/action-slack-notify@v2
         env:
           SLACK_TITLE: Deploy Success
@@ -75,7 +77,9 @@ jobs:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }} # required
 
       - name: Slack Notification Build and Pushlish Failure
-        if: ${{ failure() }}
+        if: |
+            always() && 
+            (needs.push_to_registry.result == 'failure' || needs.build.result == 'failure')
         uses: rtCamp/action-slack-notify@v2
         env:
           SLACK_TITLE: Deploy Failure
