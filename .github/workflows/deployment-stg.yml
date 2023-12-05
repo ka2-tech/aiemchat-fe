@@ -11,13 +11,22 @@ env:
   IMAGE_NAME: ${{ github.repository }}
 
 jobs:
-
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - name: Build the Docker image
-      run: docker-compose build --no-cache --force-rm 
+      - name: Get code
+        uses: actions/checkout@v3
+      - name: Cache dependencies
+        id: cache
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
+      - name: Install dependencies
+        run: npm ci
+      - name: Build website
+        id: build-website
+        run: npm run build
       
   push_to_registry:
     needs: build
@@ -51,6 +60,7 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
 
   notification:
+    needs: push_to_registry
     runs-on: ubuntu-latest
     steps:
       - name: Slack Notification Build and Pushlish Success
