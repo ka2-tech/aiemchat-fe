@@ -27,13 +27,7 @@ jobs:
       - name: Build website
         id: build-website
         run: npm run build
-      
-  push_to_registry:
-    if: ${{ false }}
-    needs: build
-    name: Push Docker image to Docker Hub
-    runs-on: ubuntu-latest
-    steps:
+
       - name: Check out the repo
         uses: actions/checkout@v3
 
@@ -60,13 +54,8 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
-  notification:
-    needs: push_to_registry
-    if: always() && contains(needs.*.result, 'failure')
-    runs-on: ubuntu-latest
-    steps:
       - name: Slack Notification Build and Pushlish Success
-        if: always() && contains(needs.*.result, 'success')
+        if: ${{ success() }}
         uses: rtCamp/action-slack-notify@v2
         env:
           SLACK_TITLE: Deploy Success
@@ -75,7 +64,7 @@ jobs:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }} # required
 
       - name: Slack Notification Build and Pushlish Failure
-        if: always() && contains(needs.*.result, 'failure')
+        if: ${{ failure() }}
         uses: rtCamp/action-slack-notify@v2
         env:
           SLACK_TITLE: Deploy Failure
