@@ -58,16 +58,16 @@ jobs:
         if: ${{ success() }}
         uses: rtCamp/action-slack-notify@v2
         env:
-          SLACK_TITLE: Deploy Success
+          SLACK_TITLE: (SUCCESS) Build and Push Images
           SLACK_COLOR: good
-          SLACK_MESSAGE: 'Push Docker image to Docker Hub :rocket:'
+          SLACK_MESSAGE: 'Push Docker image to Docker Hub success :rocket:'
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }} # required
 
       - name: Slack Notification Build and Pushlish Failure
         if: ${{ failure() }}
         uses: rtCamp/action-slack-notify@v2
         env:
-          SLACK_TITLE: Deploy Failure
+          SLACK_TITLE: (FAILURE) Build and Push Images 
           SLACK_COLOR: danger
-          SLACK_MESSAGE: 'Push Docker image to Docker Hub :skull:'
+          SLACK_MESSAGE: 'Push Docker image to Docker Hub failure :skull:'
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }} # required
