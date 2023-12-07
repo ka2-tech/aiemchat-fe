@@ -1,6 +1,6 @@
 FROM node:14.21
 
-WORKDIR /app/frontend-chat
+WORKDIR /app
 
 COPY package.json .
 
@@ -8,6 +8,6 @@ RUN npm install
 
 COPY . .
 
-EXPOSE 8003
+EXPOSE 3000
 
 CMD ["npm", "start"]
