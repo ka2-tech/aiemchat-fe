@@ -54,6 +54,26 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
+      - name: Change file manifest
+        run: |
+           git clone https://khraiteka:${{ secrets.GITHUB_TOKEN }}@github.com/aiemchat-deployment.git
+           cd aiemchat-deployment
+           cat docker-compose.yml
+           sed -i 's/aiemchat-fe.*/aiemchat-fe:${{ steps.meta.outputs.tags }}/g' docker-compose.yml
+           cat docker-compose.yml
+        env:
+           GITHUB_TOKEN: ${{ secrets.GITHUBTOKEN }}
+
+      - name: Commit and push changes
+        run: |
+          git config --global user.name "khraiteka"
+          git config --global user.email "khaitkdev@gmail.com"
+          git add docker-compose.yml
+          git commit -m "Updated Deployment Manifest"
+          git push https://khraiteka:${{ secrets.GITHUB_TOKEN }}@github.com/aiemchat-deployment.git develop
+        env:
+           GITHUB_TOKEN: ${{ secrets.GITHUBTOKEN }}
+
       - name: Slack Notification Build and Pushlish Success
         if: ${{ success() }}
         uses: rtCamp/action-slack-notify@v2
