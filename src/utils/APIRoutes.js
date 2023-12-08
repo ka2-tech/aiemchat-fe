@@ -1,4 +1,5 @@
-export const host = "http://localhost:8004";
+const ip = window.location.hostname.split("/")[0];
+export const host = `http://${ip}:8004`;
 export const loginRoute = `${host}/api/auth/login`;
 export const registerRoute = `${host}/api/auth/register`;
 export const logoutRoute = `${host}/api/auth/logout`;
