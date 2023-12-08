@@ -11,6 +11,7 @@ import Welcome from "../components/Welcome";
 export default function Chat() {
   const navigate = useNavigate();
   const socket = useRef();
+  const host = window.location.hostname.split("/")[0];
   const [contacts, setContacts] = useState([]);
   const [currentChat, setCurrentChat] = useState(undefined);
   const [currentUser, setCurrentUser] = useState(undefined);
@@ -33,10 +34,10 @@ export default function Chat() {
   useEffect(() => {
     if (currentUser) {
       console.log('click');
-      socket.current = io('ws://localhost:8004');
+      socket.current = io(`ws://${host}:8004`);
       socket.current.emit("add-user", currentUser._id);
     }
-  }, [currentUser]);
+  }, [currentUser, host]);
 
   useEffect(() => {
     async function getData() {
