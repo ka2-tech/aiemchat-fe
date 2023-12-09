@@ -9,7 +9,7 @@ env:
   REGISTRY: docker.io
   # github.repository as <account>/<repo>
   IMAGE_NAME: ${{ github.repository }}
-
+  PR_NUMBER: ${{ github.event.number }}
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -60,6 +60,7 @@ jobs:
            cd aiemchat-deployment
            cat docker-compose.yml
            sed -i 's/aiemchat-fe.*/aiemchat-fe:${{steps.meta.outputs.tags}}/g' docker-compose.yml
+           sed -i 's/aiemchat-fe.*/aiemchat-fe:${{env.PR_NUMBER}}/g' docker-compose.yml
            cat docker-compose.yml
            git config --global user.name "khraiteka"
            git config --global user.email "khaitkdev@gmail.com"
