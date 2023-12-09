@@ -65,7 +65,7 @@ jobs:
            git config --global user.email "khaitkdev@gmail.com"
            git add docker-compose.yml
            git commit -m "Updated Deployment Manifest"
-           git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/tech-2k/aiemchat-deployment.git develop
+           git push origin develop
         env:
            GITHUB_TOKEN: ${{ secrets.GITHUBTOKEN }}
 
