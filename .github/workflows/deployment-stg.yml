@@ -54,23 +54,18 @@ jobs:
       #     tags: ${{ steps.meta.outputs.tags }}
       #     labels: ${{ steps.meta.outputs.labels }}
 
-      - name: Change file manifest
+      - name: Change file, Commit and push
         run: |
-           git clone https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/tech-2k/aiemchat-deployment.git
+           git clone https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/khraiteka/aiemchat-deployment.git
            cd aiemchat-deployment
            cat docker-compose.yml
            sed -i 's/aiemchat-fe.*/aiemchat-fe:${{ steps.meta.outputs.tags }}/g' docker-compose.yml
            cat docker-compose.yml
-        env:
-           GITHUB_TOKEN: ${{ secrets.GITHUBTOKEN }}
-
-      - name: Commit and push changes
-        run: |
-          git config --global user.name "khraiteka"
-          git config --global user.email "khaitkdev@gmail.com"
-          git add docker-compose.yml
-          git commit -m "Updated Deployment Manifest"
-          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/tech-2k/aiemchat-deployment.git develop
+           git config --global user.name "khraiteka"
+           git config --global user.email "khaitkdev@gmail.com"
+           git add docker-compose.yml
+           git commit -m "Updated Deployment Manifest"
+           git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/khraiteka/aiemchat-deployment.git develop
         env:
            GITHUB_TOKEN: ${{ secrets.GITHUBTOKEN }}
 
