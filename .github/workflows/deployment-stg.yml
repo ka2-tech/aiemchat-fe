@@ -59,7 +59,7 @@ jobs:
            git clone https://x-access-token:${{ secrets.GITHUBTOKEN }}@github.com/tech-2k/aiemchat-deployment.git
            cd aiemchat-deployment
            cat docker-compose.yml
-           sed -i 's/aiemchat-fe.*/aiemchat-fe:${{ steps.meta.outputs.tags }}/g' docker-compose.yml
+           sed -i 's/aiemchat-fe.*/aiemchat-fe:${{steps.meta.outputs.tags}}/g' docker-compose.yml
            cat docker-compose.yml
            git config --global user.name "khraiteka"
            git config --global user.email "khaitkdev@gmail.com"
