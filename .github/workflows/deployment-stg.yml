@@ -36,6 +36,14 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+      - name: Create .env file
+        working-directory: ./
+        run: |
+          touch .env
+          echo APP_SECRET=${{ secrets.STG_APP_SECRET }} >> .env
+          echo MONGODB_URI=${{ secrets.STG_SHOPPING_DB_URL }} >> .env
+          cat .env
+
       - name: Extract metadata (tags, labels) for Docker
         id: meta
         uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
