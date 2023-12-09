@@ -40,6 +40,7 @@ jobs:
         working-directory: ./
         run: |
           touch .env
+          echo REACT_APP_LOCALHOST_KEY=${{ secrets.REACT_APP_LOCALHOST_KEY }} >> .env
           echo APP_SECRET=${{ secrets.STG_APP_SECRET }} >> .env
           echo MONGODB_URI=${{ secrets.STG_SHOPPING_DB_URL }} >> .env
           cat .env
